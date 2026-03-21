@@ -251,9 +251,9 @@
         {% for image in images %}
             <div class="photo-card">
                 <img
-                    src="{{ url_for('static', filename='uploads/' + image) }}"
+                    src="{{ url_for('static', filename='Uploads/' + image) }}"
                     alt="Uploaded photo"
-                    data-fullsrc="{{ url_for('static', filename='uploads/' + image) }}"
+                    data-fullsrc="{{ url_for('static', filename='Uploads/' + image) }}"
                     data-index="{{ loop.index0 }}"
                     class="clickable-img"
                 >
