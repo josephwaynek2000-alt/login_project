@@ -10,6 +10,8 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
 UPLOAD_FOLDER = os.path.join("static", "Uploads")
 
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SECURE"] = True
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
@@ -52,7 +54,7 @@ def login():
 def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
-    return "<h1>Dashboard works</h1>"
+    return render_template("dashboard.html", username=session["user"], page="dashboard")
 
 @app.route("/letters")
 def letters():
