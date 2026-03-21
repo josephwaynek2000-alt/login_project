@@ -1,25 +1,18 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
-from PIL import Image
 from werkzeug.security import generate_password_hash, check_password_hash
-
-import os
-from flask import Flask
+from PIL import Image
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
-
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
 UPLOAD_FOLDER = os.path.join("static", "Uploads")
-
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 USERNAME = "Iva_Jansen"
 PASSWORD_HASH = generate_password_hash("Honey")
@@ -59,7 +52,7 @@ def login():
 def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
-    return render_template("dashboard.html", username=session["user"], page="dashboard")
+    return "<h1>Dashboard works</h1>"
 
 @app.route("/letters")
 def letters():
@@ -85,7 +78,7 @@ def photos():
         file = request.files["photo"]
 
         if file.filename == "":
-            flash("Photo uploaded!")
+            flash("No photo selected.")
             return redirect(url_for("photos"))
 
         if file and allowed_file(file.filename):
@@ -135,5 +128,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
     app.run(debug=True)
