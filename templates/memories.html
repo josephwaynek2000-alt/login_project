@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.memory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.memory-card {
+    background: #fff7fb;
+    border: 1px solid #f4d7e3;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.memory-card h3 {
+    margin: 0;
+    color: #5b3042;
+}
+
+.memory-card .date {
+    font-size: 13px;
+    color: #a07b8b;
+}
+
+.memory-card p {
+    margin-top: 10px;
+    color: #6c4757;
+    line-height: 1.6;
+}
+</style>
+<h1>Memories</h1>
+
+<div class="memory-list">
+
+    <div class="memory-card">
+        <h3>Our First "Date"</h3>
+        <span class="date">July 28 2021</span>
+        <p>
+            You texted me "When are we driving around again? I have money for food." This was the first time we went out to "dinner" one on one at waffle house. I remember being so scared to offend you by ordering a bacon bowl because of you practicing Islam.
+        </p>
+    </div>
+
+    <div class="memory-card">
+        <h3>Our Engagement</h3>
+        <span class="date">August 10 2022</span>
+        <p>
+            I remember thinking so hard on what date I was going to pick for this. I had two in mind right near each other because of the significance to our time together. I took you to the falls and you were oblivious. I even had to convince you to change your outfit because I knew that the original outfit you were wearing was not one that you would've wanted in those photos. Then once it was time i was still so nervous. But in the end I'm so glad I beat the nerves and pulled the trigger on it. One of the best decisions I've ever made.
+        </p>
+    </div>
+
+</div>
+{% endblock %}

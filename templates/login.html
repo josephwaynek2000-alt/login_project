@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Back</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(255, 214, 224, 0.9), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(255, 182, 193, 0.7), transparent 30%),
+                linear-gradient(135deg, #fff7fb, #ffeef5, #fff3f7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: #4b2e39;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 980px;
+            min-height: 620px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(173, 90, 123, 0.18);
+        }
+
+        .hero {
+            padding: 56px;
+            background: linear-gradient(160deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand-badge {
+            width: 62px;
+            height: 62px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ff8fb1, #d96c95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 14px 28px rgba(217, 108, 149, 0.28);
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            line-height: 1.05;
+            margin: 24px 0 16px;
+            color: #5b3042;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #7a5563;
+            max-width: 430px;
+            margin: 0;
+        }
+
+        .feature-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+
+        .pill {
+            padding: 12px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(255,255,255,0.7);
+            color: #7b4f60;
+            font-size: 14px;
+            box-shadow: 0 10px 24px rgba(181, 117, 140, 0.08);
+        }
+
+        .quote-box {
+            margin-top: 40px;
+            padding: 18px 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(255,255,255,0.65);
+            color: #8c6171;
+            line-height: 1.6;
+            max-width: 440px;
+        }
+
+        .form-side {
+            padding: 56px 42px;
+            background: rgba(255, 255, 255, 0.82);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .eyebrow {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #c06b8b;
+            margin-bottom: 10px;
+        }
+
+        .card h2 {
+            margin: 0 0 8px;
+            font-size: 34px;
+            color: #5b3042;
+        }
+
+        .subtext {
+            margin: 0 0 26px;
+            color: #8e6a78;
+            line-height: 1.6;
+        }
+
+        .error {
+            background: #fff0f4;
+            color: #b3476a;
+            border: 1px solid #f4c5d5;
+            padding: 12px 14px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #754c5d;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid #f0c9d8;
+            background: #fffafc;
+            color: #5b3042;
+            padding: 15px 16px;
+            font-size: 15px;
+            border-radius: 16px;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        input:focus {
+            border-color: #e98bab;
+            box-shadow: 0 0 0 5px rgba(233, 139, 171, 0.16);
+        }
+
+        .actions {
+            margin-top: 8px;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 16px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            background: linear-gradient(135deg, #f07da1, #d96c95);
+            box-shadow: 0 16px 32px rgba(217, 108, 149, 0.28);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 20px 36px rgba(217, 108, 149, 0.34);
+        }
+
+        .meta {
+            margin-top: 22px;
+            padding: 16px;
+            border-radius: 18px;
+            background: #fff6f9;
+            border: 1px solid #f7d8e4;
+            text-align: center;
+            color: #8e6a78;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .meta strong {
+            color: #5b3042;
+        }
+
+        @media (max-width: 860px) {
+            .shell {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 38px 30px 24px;
+            }
+
+            .hero-text h1 {
+                font-size: 38px;
+            }
+
+            .form-side {
+                padding: 24px 30px 38px;
+            }
+        }
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    width: 100%;
+    border: 1px solid #f0c9d8;
+    background: #fffafc;
+    color: #5b3042;
+    padding: 15px 88px 15px 16px;
+    font-size: 15px;
+    border-radius: 16px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.password-wrap input:focus {
+    border-color: #e98bab;
+    box-shadow: 0 0 0 5px rgba(233, 139, 171, 0.16);
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%); /* THIS centers it vertically */
+     width: auto;              /* 🔥 THIS fixes the stretching */
+    display: inline-block;    /* prevents full-width behavior */
+    border: none;
+    background: #f7d8e4;
+    color: #7b4f60;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+
+    height: auto;
+    line-height: 1;
+}
+
+.toggle-password:hover {
+    background: #efbdd0;
+    transform: translateY(-50%); /* keep it centered even on hover */
+}
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <section class="hero">
+            <div>
+                <div class="brand-badge">♡</div>
+
+                <div class="hero-text">
+                    <h1>Our Life</h1>
+                    <p>
+                        I learned how to build this in my free time and I figured I would put it to good use. 
+                    </p>
+                </div>
+
+                <div class="feature-row">
+                    <div class="pill">My Wife</div>
+                    <div class="pill">My World</div>
+                    <div class="pill">My Love</div>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                Created by your loving husband.
+            </div>
+        </section>
+
+        <section class="form-side">
+            <div class="card">
+                <div class="eyebrow">Private Access</div>
+                <h2>Welcome back</h2>
+                <p class="subtext">
+                    Sign in to continue to your dashboard.
+                </p>
+
+                {% if error %}
+                    <div class="error">{{ error }}</div>
+                {% endif %}
+
+                <form method="POST">
+                    <div class="field">
+                        <label for="username">User</label>
+                        <input id="username" name="username" type="text" placeholder="Enter your username" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <div class="password-wrap">
+                            <input id="password" name="password" type="password" placeholder="Enter your password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword()">Show</button>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="submit">Log In</button>
+                    </div>
+                </form>
+
+                <div class="meta">
+                    Login:<br>
+                    <strong>Iva_Jansen</strong> / <strong>Honey</strong>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const toggleButton = document.querySelector(".toggle-password");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleButton.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            toggleButton.textContent = "Show";
+        }
+    }
+</script>
+</body>
+</html>

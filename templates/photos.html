@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-container">
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+<style>
+    .photos-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+    }
+
+    .photos-header h1 {
+        margin: 0;
+        font-size: 34px;
+        color: #5b3042;
+    }
+
+    .photos-header p {
+        margin: 8px 0 0;
+        color: #7d5a67;
+        line-height: 1.6;
+    }
+
+    .upload-card {
+        background: #fff7fb;
+        border: 1px solid #f4d7e3;
+        border-radius: 22px;
+        padding: 20px;
+        margin-bottom: 28px;
+        box-shadow: 0 14px 30px rgba(178, 108, 137, 0.08);
+    }
+
+    .upload-form {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .upload-form input[type="file"] {
+        background: white;
+        border: 1px solid #f0c9d8;
+        padding: 10px 12px;
+        border-radius: 14px;
+        color: #6c4757;
+    }
+
+    .upload-form button {
+        border: none;
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(135deg, #f07da1, #d96c95);
+        cursor: pointer;
+        box-shadow: 0 10px 20px rgba(217, 108, 149, 0.2);
+        width: auto;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+    }
+
+    .photo-card {
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.95);
+        border: 1px solid rgba(255,255,255,0.9);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 16px 34px rgba(178, 108, 137, 0.12);
+    }
+
+    .photo-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+        cursor: pointer;
+        transition: transform 0.25s ease;
+    }
+
+    .photo-card:hover img {
+        transform: scale(1.04);
+    }
+
+    .photo-actions {
+        padding: 12px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .delete-form {
+        width: 100%;
+    }
+
+    .delete-btn {
+        width: 100%;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        background: linear-gradient(135deg, #d9537d, #bf4f72);
+        box-shadow: 0 8px 18px rgba(191, 79, 114, 0.2);
+    }
+
+    .delete-btn:hover {
+        filter: brightness(0.97);
+    }
+
+    .empty-state {
+        padding: 40px 20px;
+        text-align: center;
+        background: #fff7fb;
+        border: 1px dashed #efbfd1;
+        border-radius: 20px;
+        color: #8b6675;
+    }
+
+    .empty-state h3 {
+        margin-top: 0;
+        color: #5b3042;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        inset: 0;
+        background: rgba(20, 10, 15, 0.88);
+        backdrop-filter: blur(6px);
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+    }
+
+    .modal-content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .modal img {
+        max-width: 90%;
+        max-height: 85%;
+        border-radius: 18px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        user-select: none;
+        -webkit-user-drag: none;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 24px;
+        font-size: 42px;
+        color: white;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        font-size: 28px;
+        cursor: pointer;
+        color: white;
+        background: rgba(255,255,255,0.16);
+        backdrop-filter: blur(4px);
+    }
+
+    .nav-btn:hover {
+        background: rgba(255,255,255,0.24);
+    }
+
+    .prev-btn {
+        left: 18px;
+    }
+
+    .next-btn {
+        right: 18px;
+    }
+
+    @media (max-width: 700px) {
+        .modal img {
+            max-width: 94%;
+            max-height: 72%;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            font-size: 24px;
+        }
+    }
+    .flash-container {
+    margin-bottom: 20px;
+}
+
+.flash-message {
+    background: #ffeaf1;
+    border: 1px solid #f4c5d5;
+    color: #a94465;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-weight: bold;
+    box-shadow: 0 8px 18px rgba(217, 108, 149, 0.12);
+}
+</style>
+
+<div class="photos-header">
+    <div>
+        <h1>Photos</h1>
+        <p>Our precious moments through the years. 💜🩷</p>
+    </div>
+</div>
+
+<div class="upload-card">
+    <form class="upload-form" method="POST" enctype="multipart/form-data">
+        <input type="file" name="photo" accept=".png,.jpg,.jpeg,.gif,.webp" required>
+        <button type="submit">Upload Photo</button>
+    </form>
+</div>
+
+{% if images %}
+    <div class="gallery-grid">
+        {% for image in images %}
+            <div class="photo-card">
+                <img
+                    src="{{ url_for('static', filename='uploads/' + image) }}"
+                    alt="Uploaded photo"
+                    data-fullsrc="{{ url_for('static', filename='uploads/' + image) }}"
+                    data-index="{{ loop.index0 }}"
+                    class="clickable-img"
+                >
+
+                <div class="photo-actions">
+                    <form class="delete-form" method="POST" action="{{ url_for('delete_photo', filename=image) }}" onsubmit="return confirm('Delete this photo?')">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <h3>No photos yet</h3>
+        <p>Upload your first image to start the gallery.</p>
+    </div>
+{% endif %}
+
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <button class="nav-btn prev-btn" onclick="showPrev(event)">‹</button>
+        <img id="modalImage" alt="Full size image">
+        <button class="nav-btn next-btn" onclick="showNext(event)">›</button>
+    </div>
+</div>
+
+<script>
+    const clickableImages = Array.from(document.querySelectorAll(".clickable-img"));
+    const galleryImages = clickableImages.map(img => img.dataset.fullsrc);
+
+    let currentImageIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    clickableImages.forEach(img => {
+        img.addEventListener("click", function () {
+            currentImageIndex = Number(this.dataset.index);
+            openModal(currentImageIndex);
+        });
+    });
+
+    function openModal(index) {
+        currentImageIndex = index;
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+
+        modalImg.src = galleryImages[currentImageIndex];
+        modal.style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+
+    function showPrev(event) {
+        event.stopPropagation();
+        if (galleryImages.length === 0) return;
+
+        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        document.getElementById("modalImage").src = galleryImages[currentImageIndex];
+    }
+
+    function showNext(event) {
+        event.stopPropagation();
+        if (galleryImages.length === 0) return;
+
+        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+        document.getElementById("modalImage").src = galleryImages[currentImageIndex];
+    }
+
+    document.addEventListener("keydown", function(event) {
+        const modal = document.getElementById("imageModal");
+        if (modal.style.display !== "flex") return;
+
+        if (event.key === "Escape") closeModal();
+        if (event.key === "ArrowLeft") {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            document.getElementById("modalImage").src = galleryImages[currentImageIndex];
+        }
+        if (event.key === "ArrowRight") {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            document.getElementById("modalImage").src = galleryImages[currentImageIndex];
+        }
+    });
+
+    const modalElement = document.getElementById("imageModal");
+
+    modalElement.addEventListener("touchstart", function(event) {
+        touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+
+    modalElement.addEventListener("touchend", function(event) {
+        touchEndX = event.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeDistance = touchEndX - touchStartX;
+
+        if (Math.abs(swipeDistance) < 50) return;
+
+        if (swipeDistance > 0) {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        } else {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+        }
+
+        document.getElementById("modalImage").src = galleryImages[currentImageIndex];
+    }
+</script>
+<script>
+    setTimeout(() => {
+        const flash = document.querySelector(".flash-message");
+        if (flash) flash.style.display = "none";
+    }, 3000);
+</script>
+{% endblock %}
