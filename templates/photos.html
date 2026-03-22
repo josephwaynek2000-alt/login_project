@@ -250,7 +250,7 @@
     <div class="gallery-grid">
         {% for image in images %}
             <div class="photo-card">
-                <img
+               <img
                     src="{{ url_for('static', filename='uploads/' + image) }}"
                     alt="Uploaded photo"
                     data-fullsrc="{{ url_for('static', filename='uploads/' + image) }}"
