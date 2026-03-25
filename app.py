@@ -13,8 +13,8 @@ UPLOAD_FOLDER = os.path.join("static", "uploads")
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-app.config["SESSION_COOKIE_SECURE"] = True
-app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SECURE"] = not app.debug
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
