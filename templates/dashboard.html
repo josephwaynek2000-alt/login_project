@@ -240,7 +240,7 @@
 
     <style>
 .spotify-card {
-    background: linear-gradient(180deg, #1db954 0%, #121212 28%, #121212 100%);
+    background: linear-gradient(180deg, #dc83ba 0%, #121212 28%, #121212 100%);
     border-radius: 24px;
     padding: 24px;
     color: white;
@@ -287,18 +287,22 @@
 
 .song-form {
     display: grid;
-    grid-template-columns: 1fr 1fr 1.4fr auto;
-    gap: 12px;
-    margin-bottom: 24px;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
 .song-form input {
     border: none;
-    border-radius: 14px;
-    padding: 12px 14px;
-    background: #181818;
+    border-radius: 10px;
+    padding: 14px;
+    background: #121212;
     color: white;
     outline: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+}
+
+.song-form input:focus {
+    outline: 1px solid #dc83ba;
 }
 
 .song-form input::placeholder {
@@ -308,15 +312,16 @@
 .song-form button {
     border: none;
     border-radius: 999px;
-    padding: 12px 18px;
+    padding: 12px 16px;
     font-weight: 700;
-    background: #1db954;
+    background: #dc83ba;
     color: #121212;
     cursor: pointer;
+    width: fit-content;
 }
 
 .song-form button:hover {
-    filter: brightness(1.06);
+    transform: scale(1.03);
 }
 
 .songs-list {
@@ -346,7 +351,7 @@
     width: 56px;
     height: 56px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #1db954, #168f43);
+    background: linear-gradient(135deg, #dc83ba, #bb439b);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -376,7 +381,7 @@
 .song-action {
     font-size: 13px;
     font-weight: 700;
-    color: #1db954;
+    color: #dc83ba;
     background: rgba(29,185,84,0.12);
     border-radius: 999px;
     padding: 8px 12px;
