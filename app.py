@@ -33,8 +33,7 @@ USERNAME = "Iva_Jansen"
 PASSWORD_HASH = generate_password_hash("Honey")
 
 print("RUNNING THIS APP FILE NOW")
-print("CURRENT USERNAME:", repr(USERNAME))
-print("CURRENT PASSWORD:", repr(PASSWORD_HASH))
+
 
 @app.route("/")
 def home():
@@ -98,23 +97,6 @@ def dashboard():
         page="dashboard"
     )
 
-@app.route("/add-song", methods=["POST"])
-def add_song():
-    if "user" not in session:
-        return redirect(url_for("login"))
-
-    title = request.form.get("title")
-    artist = request.form.get("artist")
-    spotify_link = request.form.get("spotify_link")
-
-    if title and artist and spotify_link:
-        songs.append({
-            "title": title,
-            "artist": artist,
-            "spotify_link": spotify_link
-        })
-
-    return redirect(url_for("dashboard"))
 
 @app.route("/letters")
 def letters():
