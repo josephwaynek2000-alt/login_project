@@ -454,11 +454,10 @@
 <div class="photos-shell">
     <section class="photos-hero">
         <div class="hero-panel">
-            <div class="eyebrow">Photo Memories</div>
-            <h1 class="hero-title">A gallery for your favorite moments</h1>
+            <div class="eyebrow">Our Photos</div>
+            <h1 class="hero-title">A gallery for our precious moments</h1>
             <p class="hero-copy">
-                Keep your best memories in one beautiful place. Upload new photos, browse your collection,
-                and open any image in a full-screen viewer.
+                I added this page to visually capture the feelings of so many great days in our relationship.
             </p>
 
             <div class="hero-stats">
@@ -480,7 +479,7 @@
         <div class="upload-panel">
             <h2 class="upload-title">Upload a new photo</h2>
             <p class="upload-copy">
-                Add another memory to your collection. JPG, PNG, GIF, and WEBP are supported.
+                Let's keep adding honey 💜🩷
             </p>
 
             <form class="upload-form" method="POST" enctype="multipart/form-data">
@@ -495,7 +494,7 @@
     <section>
         <div class="toolbar">
             <div>
-                <h2 class="toolbar-title">Your gallery</h2>
+                <h2 class="toolbar-title">Our gallery</h2>
                 <p class="toolbar-subtitle">Click any image to open it in full view.</p>
             </div>
             <div class="gallery-count">{{ images|length }} photo{% if images|length != 1 %}s{% endif %}</div>
@@ -516,10 +515,6 @@
                         </div>
 
                         <div class="photo-footer">
-                            <div class="photo-meta">
-                                <span class="photo-label">Memory {{ loop.index }}</span>
-                                <span class="photo-hint">Stored in your gallery</span>
-                            </div>
 
                             <form class="delete-form" method="POST" action="{{ url_for('delete_photo') }}">
                                 <input type="hidden" name="public_id" value="{{ image.public_id }}">
