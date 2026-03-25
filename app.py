@@ -63,12 +63,6 @@ def login():
 
     return render_template("login.html", error=error)
 
-@app.route("/dashboard")
-def dashboard():
-    if "user" not in session:
-        return redirect(url_for("login"))
-    return render_template("dashboard.html", username=session["user"], page="dashboard")
-
 @app.route("/add-song", methods=["POST"])
 def add_song():
     if "user" not in session:
