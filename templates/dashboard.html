@@ -408,7 +408,7 @@
         <div class="brand-icon">♡</div>
         <div>
             <h1>This is Us</h1>
-            <p>Wanted to put my brain into something more creative for you.</p>
+            <p>I wanted to put my brain into something more creative for you.</p>
         </div>
     </div>
 
@@ -464,33 +464,41 @@
                 <p class="spotify-subtext">A soundtrack for us. Add the songs that mean something.</p>
 
                 <form method="POST" action="{{ url_for('add_song') }}" class="song-form">
-                    <input type="text" name="title" placeholder="Song title" required>
-                    <input type="text" name="artist" placeholder="Artist" required>
-                    <input type="url" name="spotify_link" placeholder="Spotify link" required>
+                    <input type="url" name="spotify_link" placeholder="Paste Spotify track link" required>
                     <button type="submit">Add song</button>
                 </form>
 
                 <div class="songs-list">
-                    {% if songs %}
-                        {% for song in songs %}
-                            <a class="song-row" href="{{ song.spotify_link }}" target="_blank">
-                                <div class="song-cover">
-                                    <span>♪</span>
-                                </div>
-                                <div class="song-info">
-                                    <div class="song-title">{{ song.title }}</div>
-                                    <div class="song-artist">{{ song.artist }}</div>
-                                </div>
-                                <div class="song-action">Play</div>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <div class="no-songs">
-                            No songs added yet. Start building your soundtrack. 💚
-                        </div>
-                    {% endif %}
+    {% if songs %}
+        {% for song in songs %}
+            <div class="song-row">
+                <div class="song-cover">
+                    <span>♪</span>
+                </div>
+
+                <div class="song-info">
+                    <div class="song-title">{{ song.title }}</div>
+                    <div class="song-artist">{{ song.artist }}</div>
+
+                    <div style="margin-top: 12px;">
+                        <iframe
+                            src="{{ song.embed_link }}"
+                            width="100%"
+                            height="80"
+                            frameborder="0"
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+                    </div>
                 </div>
             </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-songs">
+            No songs added yet. Start building your soundtrack. 💚
+        </div>
+    {% endif %}
+</div>
 
             <div class="card">
                 <h3>Iva's Vows</h3>
