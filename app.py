@@ -72,7 +72,7 @@ def memories():
 def photos():
     if "user" not in session:
         return redirect(url_for("login"))
-    return "Photos route works"
+    return render_template("photos.html", username=session["user"], page="photos")
 
     if request.method == "POST":
         if "photo" not in request.files:
