@@ -3,6 +3,9 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from PIL import Image
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
@@ -18,6 +21,13 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
+)
 
 USERNAME = "Iva_Jansen"
 PASSWORD_HASH = generate_password_hash("Honey")
@@ -78,6 +88,7 @@ def photos():
 
     if request.method == "POST":
         if "photo" not in request.files:
+            flash("No photo uploaded.")
             return redirect(url_for("photos"))
 
         file = request.files["photo"]
@@ -87,24 +98,36 @@ def photos():
             return redirect(url_for("photos"))
 
         if file and allowed_file(file.filename):
-            import time
+            try:
+                result = cloudinary.uploader.upload(
+                    file,
+                    folder="login_project_photos",
+                    resource_type="image"
+                )
+                flash("Photo uploaded successfully.")
+            except Exception as e:
+                flash(f"Upload failed: {str(e)}")
 
-            filename = f"{int(time.time())}_{secure_filename(file.filename)}"
-            save_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            image = Image.open(file)
-            # Resize to max width/height
-            image.thumbnail((800, 800))  # keeps aspect ratio
-            image.save(save_path)
             return redirect(url_for("photos"))
 
     images = []
 
-    if os.path.exists(app.config["UPLOAD_FOLDER"]):
-        for filename in os.listdir(app.config["UPLOAD_FOLDER"]):
-            if allowed_file(filename):
-                images.append(filename)
+    try:
+        result = cloudinary.api.resources(
+            type="upload",
+            prefix="login_project_photos/",
+            resource_type="image",
+            max_results=100
+        )
 
-    images.sort(reverse=True)
+        for resource in result.get("resources", []):
+            images.append({
+                "url": resource["secure_url"],
+                "public_id": resource["public_id"]
+            })
+
+    except Exception as e:
+        flash(f"Could not load photos: {str(e)}")
 
     return render_template(
         "photos.html",
@@ -113,16 +136,22 @@ def photos():
         images=images
     )
 
-@app.route("/delete-photo/<filename>", methods=["POST"])
-def delete_photo(filename):
+@app.route("/delete-photo", methods=["POST"])
+def delete_photo():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    safe_name = secure_filename(filename)
-    file_path = os.path.join(app.config["UPLOAD_FOLDER"], safe_name)
+    public_id = request.form.get("public_id")
 
-    if os.path.exists(file_path):
-        os.remove(file_path)
+    if not public_id:
+        flash("Missing photo ID.")
+        return redirect(url_for("photos"))
+
+    try:
+        cloudinary.uploader.destroy(public_id, resource_type="image")
+        flash("Photo deleted.")
+    except Exception as e:
+        flash(f"Delete failed: {str(e)}")
 
     return redirect(url_for("photos"))
 
