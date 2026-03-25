@@ -237,6 +237,164 @@
 }
 
     </style>
+
+    <style>
+.spotify-card {
+    background: linear-gradient(180deg, #1db954 0%, #121212 28%, #121212 100%);
+    border-radius: 24px;
+    padding: 24px;
+    color: white;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+    margin-top: 24px;
+}
+
+.spotify-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.spotify-label {
+    margin: 0 0 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.72);
+}
+
+.spotify-header h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.spotify-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+}
+
+.spotify-subtext {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+}
+
+.song-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.4fr auto;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.song-form input {
+    border: none;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: #181818;
+    color: white;
+    outline: 1px solid rgba(255,255,255,0.08);
+}
+
+.song-form input::placeholder {
+    color: rgba(255,255,255,0.45);
+}
+
+.song-form button {
+    border: none;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-weight: 700;
+    background: #1db954;
+    color: #121212;
+    cursor: pointer;
+}
+
+.song-form button:hover {
+    filter: brightness(1.06);
+}
+
+.songs-list {
+    display: grid;
+    gap: 10px;
+}
+
+.song-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 12px;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.song-row:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+}
+
+.song-cover {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1db954, #168f43);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+}
+
+.song-info {
+    min-width: 0;
+}
+
+.song-title {
+    font-weight: 700;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-artist {
+    color: rgba(255,255,255,0.72);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.song-action {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1db954;
+    background: rgba(29,185,84,0.12);
+    border-radius: 999px;
+    padding: 8px 12px;
+}
+
+.no-songs {
+    color: rgba(255,255,255,0.72);
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+@media (max-width: 900px) {
+    .song-form {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
 </head>
 <body>
     <div class="app">
@@ -289,34 +447,44 @@
                 <div class="tag">"I DO"</div>
             </div>
 
-            <div class="card">
-                <h3>Songs we've Shared</h3>
-                <p>
-                    <div class="songs-card">
-    <h2>Our songs</h2>
-    <p>A few songs that feel like us. 💜</p>
-
-                    <ul class="songs-list">
-                        <li>
-                            <a href="https://open.spotify.com/track/YOUR_TRACK_ID_1" target="_blank">
-                                Song Title 1 — Artist Name
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://open.spotify.com/track/YOUR_TRACK_ID_2" target="_blank">
-                                Song Title 2 — Artist Name
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://open.spotify.com/track/YOUR_TRACK_ID_3" target="_blank">
-                                Song Title 3 — Artist Name
-                            </a>
-                        </li>
-                    </ul>
+            <div class="spotify-card">
+                <div class="spotify-header">
+                    <div>
+                        <p class="spotify-label">Now collecting</p>
+                        <h2>Our songs</h2>
+                    </div>
+                    <div class="spotify-badge">Spotify-inspired</div>
                 </div>
-                    
-                </p>
-                <div class="tag">Wedding Playlist</div>
+
+                <p class="spotify-subtext">A soundtrack for us. Add the songs that mean something.</p>
+
+                <form method="POST" action="{{ url_for('add_song') }}" class="song-form">
+                    <input type="text" name="title" placeholder="Song title" required>
+                    <input type="text" name="artist" placeholder="Artist" required>
+                    <input type="url" name="spotify_link" placeholder="Spotify link" required>
+                    <button type="submit">Add song</button>
+                </form>
+
+                <div class="songs-list">
+                    {% if songs %}
+                        {% for song in songs %}
+                            <a class="song-row" href="{{ song.spotify_link }}" target="_blank">
+                                <div class="song-cover">
+                                    <span>♪</span>
+                                </div>
+                                <div class="song-info">
+                                    <div class="song-title">{{ song.title }}</div>
+                                    <div class="song-artist">{{ song.artist }}</div>
+                                </div>
+                                <div class="song-action">Play</div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-songs">
+                            No songs added yet. Start building your soundtrack. 💚
+                        </div>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="card">
