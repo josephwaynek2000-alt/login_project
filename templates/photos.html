@@ -250,19 +250,18 @@
     <div class="gallery-grid">
         {% for image in images %}
             <div class="photo-card">
-               <img
-                    src="{{ url_for('static', filename='uploads/' + image) }}"
-                    alt="Uploaded photo"
-                    data-fullsrc="{{ url_for('static', filename='uploads/' + image) }}"
-                    data-index="{{ loop.index0 }}"
+                <img
                     class="clickable-img"
+                    src="{{ image.url }}"
+                    data-fullsrc="{{ image.url }}"
+                    data-index="{{ loop.index0 }}"
+                    alt="Uploaded photo"
                 >
 
-                <div class="photo-actions">
-                    <form class="delete-form" method="POST" action="{{ url_for('delete_photo', filename=image) }}" onsubmit="return confirm('Delete this photo?')">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
-                </div>
+                <form method="POST" action="{{ url_for('delete_photo') }}">
+                    <input type="hidden" name="public_id" value="{{ image.public_id }}">
+                    <button type="submit">Delete</button>
+                </form>
             </div>
         {% endfor %}
     </div>
