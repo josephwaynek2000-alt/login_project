@@ -3,139 +3,354 @@
 {% block content %}
 {% with messages = get_flashed_messages() %}
     {% if messages %}
-        <div class="flash-container">
+        <div class="flash-stack">
             {% for message in messages %}
                 <div class="flash-message">{{ message }}</div>
             {% endfor %}
         </div>
     {% endif %}
 {% endwith %}
+
 <style>
-    .photos-header {
-        display: flex;
-        justify-content: space-between;
+    :root {
+        --rose-1: #fff7fb;
+        --rose-2: #ffe7f0;
+        --rose-3: #f7cddd;
+        --rose-4: #f07da1;
+        --rose-5: #d96c95;
+        --rose-6: #bf4f72;
+        --text-1: #4f2b3a;
+        --text-2: #7b5b68;
+        --card: rgba(255, 255, 255, 0.96);
+        --shadow: 0 18px 40px rgba(191, 79, 114, 0.12);
+        --shadow-soft: 0 10px 24px rgba(191, 79, 114, 0.08);
+        --border: 1px solid rgba(240, 125, 161, 0.18);
+    }
+
+    .photos-shell {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .photos-hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 22px;
+        margin-bottom: 26px;
+    }
+
+    .hero-panel,
+    .upload-panel {
+        background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,247,251,0.96));
+        border: var(--border);
+        border-radius: 28px;
+        box-shadow: var(--shadow-soft);
+    }
+
+    .hero-panel {
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-panel::after {
+        content: "";
+        position: absolute;
+        right: -40px;
+        top: -40px;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(240,125,161,0.18), transparent 70%);
+        pointer-events: none;
+    }
+
+    .eyebrow {
+        display: inline-flex;
         align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 24px;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--rose-6);
+        background: var(--rose-2);
+        border: 1px solid rgba(240, 125, 161, 0.2);
+        padding: 8px 12px;
+        border-radius: 999px;
+        margin-bottom: 14px;
     }
 
-    .photos-header h1 {
+    .hero-title {
         margin: 0;
-        font-size: 34px;
-        color: #5b3042;
+        font-size: clamp(32px, 4vw, 44px);
+        line-height: 1.04;
+        color: var(--text-1);
     }
 
-    .photos-header p {
-        margin: 8px 0 0;
-        color: #7d5a67;
+    .hero-copy {
+        margin: 14px 0 18px;
+        color: var(--text-2);
+        line-height: 1.7;
+        max-width: 60ch;
+    }
+
+    .hero-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .stat-chip {
+        background: white;
+        border: var(--border);
+        border-radius: 18px;
+        padding: 12px 14px;
+        min-width: 130px;
+        box-shadow: 0 8px 20px rgba(191, 79, 114, 0.06);
+    }
+
+    .stat-chip strong {
+        display: block;
+        font-size: 18px;
+        color: var(--text-1);
+    }
+
+    .stat-chip span {
+        color: var(--text-2);
+        font-size: 13px;
+    }
+
+    .upload-panel {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .upload-title {
+        margin: 0 0 8px;
+        font-size: 24px;
+        color: var(--text-1);
+    }
+
+    .upload-copy {
+        margin: 0 0 18px;
+        color: var(--text-2);
         line-height: 1.6;
     }
 
-    .upload-card {
-        background: #fff7fb;
-        border: 1px solid #f4d7e3;
-        border-radius: 22px;
-        padding: 20px;
-        margin-bottom: 28px;
-        box-shadow: 0 14px 30px rgba(178, 108, 137, 0.08);
-    }
-
     .upload-form {
-        display: flex;
+        display: grid;
         gap: 12px;
-        flex-wrap: wrap;
-        align-items: center;
     }
 
-    .upload-form input[type="file"] {
+    .file-input-wrap {
+        position: relative;
         background: white;
-        border: 1px solid #f0c9d8;
-        padding: 10px 12px;
-        border-radius: 14px;
-        color: #6c4757;
+        border: 1px dashed rgba(240, 125, 161, 0.45);
+        border-radius: 20px;
+        padding: 16px;
     }
 
-    .upload-form button {
+    .file-input-wrap input[type="file"] {
+        width: 100%;
+        color: var(--text-2);
+        background: transparent;
         border: none;
-        border-radius: 14px;
-        padding: 12px 18px;
-        font-weight: bold;
+    }
+
+    .upload-btn {
+        border: none;
+        border-radius: 16px;
+        padding: 14px 18px;
+        font-weight: 700;
         color: white;
-        background: linear-gradient(135deg, #f07da1, #d96c95);
+        background: linear-gradient(135deg, var(--rose-4), var(--rose-5));
         cursor: pointer;
-        box-shadow: 0 10px 20px rgba(217, 108, 149, 0.2);
-        width: auto;
+        box-shadow: 0 14px 28px rgba(217, 108, 149, 0.24);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    .upload-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(0.98);
+        box-shadow: 0 18px 34px rgba(217, 108, 149, 0.28);
+    }
+
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+
+    .toolbar-title {
+        margin: 0;
+        font-size: 24px;
+        color: var(--text-1);
+    }
+
+    .toolbar-subtitle {
+        margin: 6px 0 0;
+        color: var(--text-2);
+    }
+
+    .gallery-count {
+        background: white;
+        border: var(--border);
+        border-radius: 999px;
+        padding: 10px 14px;
+        color: var(--text-2);
+        font-weight: 600;
+        box-shadow: var(--shadow-soft);
     }
 
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 22px;
     }
 
     .photo-card {
-        width: 100%;
-        max-width: 260px;
-        margin: 0 auto;
-        background: rgba(255,255,255,0.95);
-        border: 1px solid rgba(255,255,255,0.9);
-        border-radius: 22px;
+        background: var(--card);
+        border: var(--border);
+        border-radius: 24px;
         overflow: hidden;
-        box-shadow: 0 16px 34px rgba(178, 108, 137, 0.12);
+        box-shadow: var(--shadow);
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
-    .photo-card img {
+    .photo-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 24px 48px rgba(191, 79, 114, 0.16);
+    }
+
+    .photo-media {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        background: linear-gradient(135deg, #fff0f6, #ffe2ec);
+    }
+
+    .photo-media img {
         width: 100%;
-        height: 220px;
+        height: 100%;
         object-fit: cover;
         display: block;
         cursor: pointer;
-        transition: transform 0.25s ease;
+        transition: transform 0.35s ease;
     }
 
-    .photo-card:hover img {
-        transform: scale(1.04);
+    .photo-card:hover .photo-media img {
+        transform: scale(1.05);
     }
 
-    .photo-actions {
-        padding: 12px;
+    .zoom-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(79, 43, 58, 0.72);
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 8px 10px;
+        backdrop-filter: blur(6px);
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: 0.22s ease;
+    }
+
+    .photo-card:hover .zoom-badge {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .photo-footer {
         display: flex;
-        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+    }
+
+    .photo-meta {
+        min-width: 0;
+    }
+
+    .photo-label {
+        display: block;
+        color: var(--text-1);
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .photo-hint {
+        display: block;
+        color: var(--text-2);
+        font-size: 12px;
+        margin-top: 4px;
     }
 
     .delete-form {
-        width: 100%;
+        margin: 0;
     }
 
     .delete-btn {
-        width: 100%;
         border: none;
         border-radius: 12px;
         padding: 10px 14px;
-        font-weight: bold;
+        font-weight: 700;
         cursor: pointer;
         color: white;
-        background: linear-gradient(135deg, #d9537d, #bf4f72);
-        box-shadow: 0 8px 18px rgba(191, 79, 114, 0.2);
+        background: linear-gradient(135deg, #db5d83, #bf4f72);
+        box-shadow: 0 10px 22px rgba(191, 79, 114, 0.2);
+        transition: transform 0.18s ease, filter 0.18s ease;
     }
 
     .delete-btn:hover {
-        filter: brightness(0.97);
+        transform: translateY(-1px);
+        filter: brightness(0.98);
     }
 
     .empty-state {
-        padding: 40px 20px;
+        padding: 54px 22px;
         text-align: center;
-        background: #fff7fb;
-        border: 1px dashed #efbfd1;
-        border-radius: 20px;
-        color: #8b6675;
+        background: linear-gradient(180deg, #fff8fb, #fff2f7);
+        border: 1px dashed rgba(240, 125, 161, 0.35);
+        border-radius: 24px;
+        color: var(--text-2);
+        box-shadow: var(--shadow-soft);
+    }
+
+    .empty-state-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
     }
 
     .empty-state h3 {
-        margin-top: 0;
-        color: #5b3042;
+        margin: 0 0 8px;
+        color: var(--text-1);
+        font-size: 24px;
+    }
+
+    .flash-stack {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .flash-message {
+        background: linear-gradient(180deg, #fff0f5, #ffe8f0);
+        border: 1px solid rgba(240, 125, 161, 0.25);
+        color: #9d4564;
+        padding: 13px 16px;
+        border-radius: 16px;
+        font-weight: 700;
+        box-shadow: var(--shadow-soft);
     }
 
     .modal {
@@ -144,38 +359,39 @@
         z-index: 9999;
         inset: 0;
         background: rgba(20, 10, 15, 0.88);
-        backdrop-filter: blur(6px);
+        backdrop-filter: blur(8px);
         justify-content: center;
         align-items: center;
-        padding: 30px;
+        padding: 24px;
     }
 
     .modal-content {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         width: 100%;
         height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .modal img {
-        max-width: 90%;
-        max-height: 85%;
-        border-radius: 18px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        max-width: 92%;
+        max-height: 86%;
+        border-radius: 20px;
+        box-shadow: 0 24px 70px rgba(0,0,0,0.45);
         user-select: none;
         -webkit-user-drag: none;
     }
 
     .close-btn {
         position: absolute;
-        top: 16px;
-        right: 24px;
+        top: 14px;
+        right: 18px;
         font-size: 42px;
         color: white;
         cursor: pointer;
         line-height: 1;
+        z-index: 2;
     }
 
     .nav-btn {
@@ -183,94 +399,145 @@
         top: 50%;
         transform: translateY(-50%);
         border: none;
-        width: 52px;
-        height: 52px;
+        width: 54px;
+        height: 54px;
         border-radius: 999px;
         font-size: 28px;
         cursor: pointer;
         color: white;
         background: rgba(255,255,255,0.16);
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(6px);
+        z-index: 2;
     }
 
     .nav-btn:hover {
         background: rgba(255,255,255,0.24);
     }
 
-    .prev-btn {
-        left: 18px;
+    .prev-btn { left: 14px; }
+    .next-btn { right: 14px; }
+
+    @media (max-width: 900px) {
+        .photos-hero {
+            grid-template-columns: 1fr;
+        }
     }
 
-    .next-btn {
-        right: 18px;
-    }
+    @media (max-width: 640px) {
+        .gallery-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
 
-    @media (max-width: 700px) {
+        .photo-footer {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .delete-btn {
+            width: 100%;
+        }
+
         .modal img {
-            max-width: 94%;
-            max-height: 72%;
-        }
-
-        .nav-btn {
-            width: 44px;
-            height: 44px;
-            font-size: 24px;
+            max-width: 96%;
+            max-height: 74%;
         }
     }
-    .flash-container {
-    margin-bottom: 20px;
-}
 
-.flash-message {
-    background: #ffeaf1;
-    border: 1px solid #f4c5d5;
-    color: #a94465;
-    padding: 12px 16px;
-    border-radius: 14px;
-    font-weight: bold;
-    box-shadow: 0 8px 18px rgba(217, 108, 149, 0.12);
-}
+    @media (max-width: 480px) {
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
-<div class="photos-header">
-    <div>
-        <h1>Photos</h1>
-        <p>Our precious moments through the years. 💜🩷</p>
-    </div>
-</div>
+<div class="photos-shell">
+    <section class="photos-hero">
+        <div class="hero-panel">
+            <div class="eyebrow">Photo Memories</div>
+            <h1 class="hero-title">A gallery for your favorite moments</h1>
+            <p class="hero-copy">
+                Keep your best memories in one beautiful place. Upload new photos, browse your collection,
+                and open any image in a full-screen viewer.
+            </p>
 
-<div class="upload-card">
-    <form class="upload-form" method="POST" enctype="multipart/form-data">
-        <input type="file" name="photo" accept=".png,.jpg,.jpeg,.gif,.webp" required>
-        <button type="submit">Upload Photo</button>
-    </form>
-</div>
-
-{% if images %}
-    <div class="gallery-grid">
-        {% for image in images %}
-            <div class="photo-card">
-                <img
-                    class="clickable-img"
-                    src="{{ image.url }}"
-                    data-fullsrc="{{ image.url }}"
-                    data-index="{{ loop.index0 }}"
-                    alt="Uploaded photo"
-                >
-
-                <form method="POST" action="{{ url_for('delete_photo') }}">
-                    <input type="hidden" name="public_id" value="{{ image.public_id }}">
-                    <button type="submit">Delete</button>
-                </form>
+            <div class="hero-stats">
+                <div class="stat-chip">
+                    <strong>{{ images|length }}</strong>
+                    <span>Total photos</span>
+                </div>
+                <div class="stat-chip">
+                    <strong>Cloud</strong>
+                    <span>Stored safely</span>
+                </div>
+                <div class="stat-chip">
+                    <strong>Full view</strong>
+                    <span>Tap to expand</span>
+                </div>
             </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <div class="empty-state">
-        <h3>No photos yet</h3>
-        <p>Upload your first image to start the gallery.</p>
-    </div>
-{% endif %}
+        </div>
+
+        <div class="upload-panel">
+            <h2 class="upload-title">Upload a new photo</h2>
+            <p class="upload-copy">
+                Add another memory to your collection. JPG, PNG, GIF, and WEBP are supported.
+            </p>
+
+            <form class="upload-form" method="POST" enctype="multipart/form-data">
+                <div class="file-input-wrap">
+                    <input type="file" name="photo" accept=".png,.jpg,.jpeg,.gif,.webp" required>
+                </div>
+                <button class="upload-btn" type="submit">Upload Photo</button>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <div class="toolbar">
+            <div>
+                <h2 class="toolbar-title">Your gallery</h2>
+                <p class="toolbar-subtitle">Click any image to open it in full view.</p>
+            </div>
+            <div class="gallery-count">{{ images|length }} photo{% if images|length != 1 %}s{% endif %}</div>
+        </div>
+
+        {% if images %}
+            <div class="gallery-grid">
+                {% for image in images %}
+                    <article class="photo-card">
+                        <div class="photo-media">
+                            <img
+                                class="clickable-img"
+                                src="{{ image.url }}"
+                                data-fullsrc="{{ image.url }}"
+                                data-index="{{ loop.index0 }}"
+                                alt="Uploaded photo">
+                            <div class="zoom-badge">Tap to view</div>
+                        </div>
+
+                        <div class="photo-footer">
+                            <div class="photo-meta">
+                                <span class="photo-label">Memory {{ loop.index }}</span>
+                                <span class="photo-hint">Stored in your gallery</span>
+                            </div>
+
+                            <form class="delete-form" method="POST" action="{{ url_for('delete_photo') }}">
+                                <input type="hidden" name="public_id" value="{{ image.public_id }}">
+                                <button class="delete-btn" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">🖼️</div>
+                <h3>No photos yet</h3>
+                <p>Upload your first image to start building your gallery.</p>
+            </div>
+        {% endif %}
+    </section>
+</div>
 
 <div id="imageModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -297,10 +564,10 @@
     });
 
     function openModal(index) {
+        if (galleryImages.length === 0) return;
         currentImageIndex = index;
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("modalImage");
-
         modalImg.src = galleryImages[currentImageIndex];
         modal.style.display = "flex";
     }
@@ -312,7 +579,6 @@
     function showPrev(event) {
         event.stopPropagation();
         if (galleryImages.length === 0) return;
-
         currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
         document.getElementById("modalImage").src = galleryImages[currentImageIndex];
     }
@@ -320,7 +586,6 @@
     function showNext(event) {
         event.stopPropagation();
         if (galleryImages.length === 0) return;
-
         currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
         document.getElementById("modalImage").src = galleryImages[currentImageIndex];
     }
@@ -353,8 +618,7 @@
 
     function handleSwipe() {
         const swipeDistance = touchEndX - touchStartX;
-
-        if (Math.abs(swipeDistance) < 50) return;
+        if (Math.abs(swipeDistance) < 50 || galleryImages.length === 0) return;
 
         if (swipeDistance > 0) {
             currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
@@ -364,11 +628,13 @@
 
         document.getElementById("modalImage").src = galleryImages[currentImageIndex];
     }
-</script>
-<script>
+
     setTimeout(() => {
-        const flash = document.querySelector(".flash-message");
-        if (flash) flash.style.display = "none";
+        document.querySelectorAll(".flash-message").forEach(flash => {
+            flash.style.opacity = "0";
+            flash.style.transition = "opacity 0.35s ease";
+            setTimeout(() => flash.remove(), 350);
+        });
     }, 3000);
 </script>
 {% endblock %}
