@@ -10,6 +10,9 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
 UPLOAD_FOLDER = os.path.join("static", "uploads")
 
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
