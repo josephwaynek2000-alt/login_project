@@ -11,7 +11,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
 UPLOAD_FOLDER = os.path.join("static", "uploads")
 
 app.config["SESSION_COOKIE_SECURE"] = True
-app.config["SESSION_COOKIE_SECURE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = True
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
@@ -72,7 +72,6 @@ def memories():
 def photos():
     if "user" not in session:
         return redirect(url_for("login"))
-    return render_template("photos.html", username=session["user"], page="photos")
 
     if request.method == "POST":
         if "photo" not in request.files:
