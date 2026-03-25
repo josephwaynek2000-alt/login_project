@@ -87,7 +87,39 @@ def add_song():
         flash("Song added successfully.")
     else:
         flash("Please fill out all song fields.")
-        
+
+    return redirect(url_for("dashboard"))
+
+songs = []
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "dashboard.html",
+        username=session["user"],
+        songs=songs,
+        page="dashboard"
+    )
+
+@app.route("/add-song", methods=["POST"])
+def add_song():
+    if "user" not in session:
+        return redirect(url_for("login"))
+
+    title = request.form.get("title")
+    artist = request.form.get("artist")
+    spotify_link = request.form.get("spotify_link")
+
+    if title and artist and spotify_link:
+        songs.append({
+            "title": title,
+            "artist": artist,
+            "spotify_link": spotify_link
+        })
+
     return redirect(url_for("dashboard"))
 
 @app.route("/letters")
