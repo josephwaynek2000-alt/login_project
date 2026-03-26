@@ -74,38 +74,6 @@
             box-shadow: 0 14px 28px rgba(217, 108, 149, 0.24);
         }
 
-        .letters {
-            text-decoration: none;
-            color: white;
-            background: linear-gradient(135deg, #f07da1, #d96c95);
-            padding: 12px 18px;
-            border-radius: 14px;
-            font-weight: bold;
-            box-shadow: 0 14px 28px rgba(217, 108, 149, 0.24);
-
-        }
-
-        .memories {
-            text-decoration: none;
-            color: white;
-            background: linear-gradient(135deg, #f07da1, #d96c95);
-            padding: 12px 18px;
-            border-radius: 14px;
-            font-weight: bold;
-            box-shadow: 0 14px 28px rgba(217, 108, 149, 0.24);
-        }
-
-        .photos {
-            text-decoration: none;
-            color: white;
-            background: linear-gradient(135deg, #f07da1, #d96c95);
-            padding: 12px 18px;
-            border-radius: 14px;
-            font-weight: bold;
-            box-shadow: 0 14px 28px rgba(217, 108, 149, 0.24);
-
-        }
-
         .hero-card {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -154,6 +122,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
+            align-items: start;
         }
 
         .card {
@@ -186,6 +155,246 @@
             border: 1px solid #f7d3e0;
         }
 
+        .nav {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.7);
+            color: #7b4f60;
+            font-weight: bold;
+            border: 1px solid #f2cdd9;
+            transition: all 0.2s ease;
+        }
+
+        .nav a:hover {
+            background: linear-gradient(135deg, #4b0251, #d96c95);
+            color: white;
+        }
+
+        .nav-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav a.active {
+            background: linear-gradient(135deg, #4b0251, #d96c95);
+            color: white;
+            box-shadow: 0 10px 20px rgba(217, 108, 149, 0.25);
+        }
+
+        .flash-stack {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .flash-message {
+            background: linear-gradient(180deg, #fff0f5, #ffe8f0);
+            border: 1px solid rgba(240, 125, 161, 0.25);
+            color: #9d4564;
+            padding: 13px 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            box-shadow: 0 10px 24px rgba(217, 108, 149, 0.1);
+        }
+
+        .spotify-card {
+            background: linear-gradient(180deg, #dc83ba 0%, #121212 28%, #121212 100%);
+            border-radius: 24px;
+            padding: 24px;
+            color: white;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+            margin-top: 0;
+        }
+
+        .spotify-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .spotify-label {
+            margin: 0 0 6px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.72);
+        }
+
+        .spotify-header h2 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .spotify-badge {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .spotify-subtext {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+        }
+
+        .song-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .song-form input {
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            background: #121212;
+            color: white;
+            outline: 1px solid rgba(255,255,255,0.08);
+            font-size: 14px;
+        }
+
+        .song-form input:focus {
+            outline: 1px solid #dc83ba;
+        }
+
+        .song-form input::placeholder {
+            color: rgba(255,255,255,0.45);
+        }
+
+        .song-form button {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 16px;
+            font-weight: 700;
+            background: #dc83ba;
+            color: #121212;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        .song-form button:hover {
+            transform: scale(1.03);
+        }
+
+        .songs-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .song-row {
+            display: block;
+            color: white;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 14px;
+            transition: background 0.18s ease, transform 0.18s ease;
+        }
+
+        .song-row:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-1px);
+        }
+
+        .song-top {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .song-cover {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #dc83ba, #bb439b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .song-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .song-info {
+            min-width: 0;
+        }
+
+        .song-title {
+            font-weight: 700;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-artist {
+            color: rgba(255,255,255,0.72);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .song-embed iframe {
+            width: 100%;
+            height: 152px;
+            border: none;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .delete-song-form {
+            margin-top: 12px;
+        }
+
+        .delete-song-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+        }
+
+        .delete-song-btn:hover {
+            background: rgba(255,255,255,0.18);
+        }
+
+        .no-songs {
+            color: rgba(255,255,255,0.72);
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .song-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 860px) {
             .hero-card {
                 grid-template-columns: 1fr;
@@ -195,297 +404,40 @@
                 font-size: 28px;
             }
         }
-
-        .nav {
-    display: flex;
-    gap: 12px;
-    margin: 20px 0 30px;
-    flex-wrap: wrap;
-}
-
-.nav a {
-    text-decoration: none;
-    padding: 10px 16px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.7);
-    color: #7b4f60;
-    font-weight: bold;
-    border: 1px solid #f2cdd9;
-    transition: 0.2s ease;
-}
-
-.nav a:hover {
-    background: linear-gradient(135deg, #4b0251, #d96c95);
-    color: white;
-}
-
-.nav-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.nav a.active {
-    background: linear-gradient(135deg, #4b0251, #d96c95);
-    color: white;
-    box-shadow: 0 10px 20px rgba(217, 108, 149, 0.25);
-}
-
-
-.nav a {
-    transition: all 0.2s ease;
-}
-
-    </style>
-
-    <style>
-.spotify-card {
-    background: linear-gradient(180deg, #dc83ba 0%, #121212 28%, #121212 100%);
-    border-radius: 24px;
-    padding: 24px;
-    color: white;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
-    margin-top: 24px;
-}
-
-.spotify-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.spotify-label {
-    margin: 0 0 6px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.72);
-}
-
-.spotify-header h2 {
-    margin: 0;
-    font-size: 30px;
-    font-weight: 800;
-}
-
-.spotify-badge {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.85);
-}
-
-.spotify-subtext {
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 20px;
-}
-
-.song-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-.song-form input {
-    border: none;
-    border-radius: 10px;
-    padding: 14px;
-    background: #121212;
-    color: white;
-    outline: 1px solid rgba(255,255,255,0.08);
-    font-size: 14px;
-}
-
-.song-form input:focus {
-    outline: 1px solid #dc83ba;
-}
-
-.song-form input::placeholder {
-    color: rgba(255,255,255,0.45);
-}
-
-.song-form button {
-    border: none;
-    border-radius: 999px;
-    padding: 12px 16px;
-    font-weight: 700;
-    background: #dc83ba;
-    color: #121212;
-    cursor: pointer;
-    width: fit-content;
-}
-
-.song-form button:hover {
-    transform: scale(1.03);
-}
-
-.songs-list {
-    display: grid;
-    gap: 10px;
-}
-
-.song-row {
-    display: block;
-    color: white;
-    background: rgba(255,255,255,0.05);
-    border-radius: 16px;
-    padding: 14px;
-    transition: background 0.18s ease, transform 0.18s ease;
-}
-
-.song-row:hover {
-    background: rgba(255,255,255,0.1);
-    transform: translateY(-1px);
-}
-
-.song-top {
-    display: grid;
-    grid-template-columns: 56px 1fr;
-    gap: 14px;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.song-info {
-    min-width: 0;
-}
-
-.song-title {
-    font-weight: 700;
-    font-size: 15px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.song-artist {
-    color: rgba(255,255,255,0.72);
-    font-size: 13px;
-    margin-top: 4px;
-}
-
-.song-embed iframe {
-    width: 100%;
-    height: 152px;
-    border: none;
-    border-radius: 12px;
-    display: block;
-}
-
-.song-cover {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #dc83ba, #bb439b);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.song-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-
-.song-action {
-    font-size: 13px;
-    font-weight: 700;
-    color: #dc83ba;
-    background: rgba(29,185,84,0.12);
-    border-radius: 999px;
-    padding: 8px 12px;
-}
-
-.no-songs {
-    color: rgba(255,255,255,0.72);
-    background: rgba(255,255,255,0.05);
-    border-radius: 16px;
-    padding: 16px;
-}
-
-@media (max-width: 900px) {
-    .song-form {
-        grid-template-columns: 1fr;
-    }
-}
-
-.flash-stack {
-    display: grid;
-    gap: 10px;
-    margin-bottom: 18px;
-}
-
-.flash-message {
-    background: linear-gradient(180deg, #fff0f5, #ffe8f0);
-    border: 1px solid rgba(240, 125, 161, 0.25);
-    color: #9d4564;
-    padding: 13px 16px;
-    border-radius: 16px;
-    font-weight: 700;
-    box-shadow: 0 10px 24px rgba(217, 108, 149, 0.1);
-}
-
-.delete-song-form {
-    margin-top: 12px;
-}
-
-.delete-song-btn {
-    border: none;
-    border-radius: 999px;
-    padding: 10px 14px;
-    font-weight: 700;
-    background: rgba(255,255,255,0.1);
-    color: white;
-    cursor: pointer;
-}
-
-.delete-song-btn:hover {
-    background: rgba(255,255,255,0.18);
-}
     </style>
 </head>
 <body>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <div class="flash-stack">
-            {% for message in messages %}
-                <div class="flash-message">{{ message }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
     <div class="app">
         <div class="topbar">
-    <div class="brand">
-        <div class="brand-icon">♡</div>
-        <div>
-            <h1>This is Us</h1>
-            <p>I wanted to put my brain into something more creative for you.</p>
+            <div class="brand">
+                <div class="brand-icon">♡</div>
+                <div>
+                    <h1>This is Us</h1>
+                    <p>I wanted to put my brain into something more creative for you.</p>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav">
+                    <a href="/dashboard" class="{% if page == 'dashboard' %}active{% endif %}">Home</a>
+                    <a href="/letters" class="{% if page == 'letters' %}active{% endif %}">Letters</a>
+                    <a href="/memories" class="{% if page == 'memories' %}active{% endif %}">Memories</a>
+                    <a href="/photos" class="{% if page == 'photos' %}active{% endif %}">Photos</a>
+                </div>
+
+                <a class="logout" href="{{ url_for('logout') }}">Log Out</a>
+            </div>
         </div>
-    </div>
 
-    <div class="nav-group">
-        <div class="nav">
-            <a href="/dashboard" class="{% if page == 'dashboard' %}active{% endif %}">Home</a>
-            <a href="/letters" class="{% if page == 'letters' %}active{% endif %}">Letters</a>
-            <a href="/memories" class="{% if page == 'memories' %}active{% endif %}">Memories</a>
-            <a href="/photos" class="{% if page == 'photos' %}active{% endif %}">Photos</a>
-
-        </div>
-
-        <a class="logout" href="{{ url_for('logout') }}">Log Out</a>
-    </div>
-</div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-stack">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <section class="hero-card">
             <div class="welcome">
@@ -507,9 +459,9 @@
             <div class="card">
                 <h3>Joe's Vows</h3>
                 <p>
-                They say never date a coworker. But, I'm so glad I did. From the moment our paths crossed, you’ve captivated me, challenged me, frustrated me and improved me in ways no person has done before. And I have fallen in love with you again and again. I promise to be true to you, to support and encourage you, and to challenge and frustrate you.
-                I believe we are truly good for each other and that we will continue to grow stronger together. Today, as we move from I to we, Iva, take this ring as a symbol of my decision to join my life with yours until death do us part. You walked to this place to meet me today, and we will walk from it together.
-                From this day forward I promise to be worth it. Worth the time. Worth the distance. Worth the easy times. Worth the stress. Worth your love. I promise that you will always count and You will always come first. I love you Honey, forever.
+                    They say never date a coworker. But, I'm so glad I did. From the moment our paths crossed, you’ve captivated me, challenged me, frustrated me and improved me in ways no person has done before. And I have fallen in love with you again and again. I promise to be true to you, to support and encourage you, and to challenge and frustrate you.
+                    I believe we are truly good for each other and that we will continue to grow stronger together. Today, as we move from I to we, Iva, take this ring as a symbol of my decision to join my life with yours until death do us part. You walked to this place to meet me today, and we will walk from it together.
+                    From this day forward I promise to be worth it. Worth the time. Worth the distance. Worth the easy times. Worth the stress. Worth your love. I promise that you will always count and You will always come first. I love you Honey, forever.
                 </p>
                 <div class="tag">"I DO"</div>
             </div>
@@ -530,49 +482,49 @@
                     <button type="submit">Add song</button>
                 </form>
 
-        <div class="songs-list">
-    {% if songs %}
-        {% for song in songs %}
-            <div class="song-row">
-                <div class="song-top">
-                    <div class="song-cover">
-                        {% if song.cover_url %}
-                            <img src="{{ song.cover_url }}" alt="{{ song.title }} album cover">
-                        {% else %}
-                            <span>♪</span>
-                        {% endif %}
-                    </div>
+                <div class="songs-list">
+                    {% if songs %}
+                        {% for song in songs %}
+                            <div class="song-row">
+                                <div class="song-top">
+                                    <div class="song-cover">
+                                        {% if song.cover_url %}
+                                            <img src="{{ song.cover_url }}" alt="{{ song.title }} album cover">
+                                        {% else %}
+                                            <span>♪</span>
+                                        {% endif %}
+                                    </div>
 
-                    <div class="song-info">
-                        <div class="song-title">{{ song.title }}</div>
-                        <div class="song-artist">{{ song.artist }}</div>
-                    </div>
-                </div>
+                                    <div class="song-info">
+                                        <div class="song-title">{{ song.title }}</div>
+                                        <div class="song-artist">{{ song.artist }}</div>
+                                    </div>
+                                </div>
 
-                <div class="song-embed">
-                    <iframe
-                        src="{{ song.embed_link }}"
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy">
-                    </iframe>
+                                <div class="song-embed">
+                                    <iframe
+                                        src="{{ song.embed_link }}"
+                                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                        loading="lazy">
+                                    </iframe>
+                                </div>
 
-                    <form method="POST" action="{{ url_for('delete_song', song_id=song.id) }}" class="delete-song-form">
-                        <button type="submit" class="delete-song-btn">Delete song</button>
-                    </form>
+                                <form method="POST" action="{{ url_for('delete_song', song_id=song.id) }}" class="delete-song-form">
+                                    <button type="submit" class="delete-song-btn">Delete song</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-songs">
+                            No songs added yet. Start building your soundtrack. 💚
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="no-songs">
-                No songs added yet. Start building your soundtrack. 💚
-            </div>
-        {% endif %}
-        </div>
-        </div>
+
             <div class="card">
                 <h3>Iva's Vows</h3>
                 <p>
-                   
                 </p>
                 <div class="tag">"I DO"</div>
             </div>
@@ -580,14 +532,13 @@
     </div>
 
     <script>
-    setTimeout(() => {
-        document.querySelectorAll(".flash-message").forEach(flash => {
-            flash.style.opacity = "0";
-            flash.style.transition = "opacity 0.35s ease";
-            setTimeout(() => flash.remove(), 350);
-        });
-    }, 3000);
+        setTimeout(() => {
+            document.querySelectorAll(".flash-message").forEach(flash => {
+                flash.style.opacity = "0";
+                flash.style.transition = "opacity 0.35s ease";
+                setTimeout(() => flash.remove(), 350);
+            });
+        }, 3000);
     </script>
-
 </body>
 </html>
