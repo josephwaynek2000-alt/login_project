@@ -45,7 +45,11 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
-init_db()
+try:
+    init_db()
+    print("Database initialized.")
+except Exception as e:
+    print("DB INIT ERROR:", e)
 
 def extract_track_id(spotify_link):
     spotify_link = spotify_link.strip().split("?")[0]
@@ -191,27 +195,33 @@ def dashboard():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        SELECT id, title, artist, spotify_link, embed_link
-        FROM songs
-        ORDER BY id DESC
-    """)
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
+    songs = []
 
-    songs = [
-        {
-            "id": row[0],
-            "title": row[1],
-            "artist": row[2],
-            "spotify_link": row[3],
-            "embed_link": row[4],
-        }
-        for row in rows
-    ]
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT id, title, artist, spotify_link, embed_link
+            FROM songs
+            ORDER BY id DESC
+        """)
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        songs = [
+            {
+                "id": row[0],
+                "title": row[1],
+                "artist": row[2],
+                "spotify_link": row[3],
+                "embed_link": row[4],
+            }
+            for row in rows
+        ]
+    except Exception as e:
+        print("DASHBOARD DB ERROR:", e)
+        flash("Songs are temporarily unavailable.")
 
     return render_template(
         "dashboard.html",
