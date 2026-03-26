@@ -242,16 +242,6 @@ def dashboard():
         page="dashboard"
     )
 
-@app.route("/clear-songs")
-def clear_songs():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM songs")
-    conn.commit()
-    cur.close()
-    conn.close()
-
-    return "All songs deleted"
 
 
 @app.route("/letters")
