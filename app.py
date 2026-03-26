@@ -32,8 +32,13 @@ def init_db():
             title TEXT NOT NULL,
             artist TEXT NOT NULL,
             spotify_link TEXT NOT NULL,
-            embed_link TEXT NOT NULL
+            embed_link TEXT NOT NULL,
+            cover_url TEXT
         )
+    """)
+    cur.execute("""
+        ALTER TABLE songs
+        ADD COLUMN IF NOT EXISTS cover_url TEXT
     """)
     conn.commit()
     cur.close()
@@ -102,11 +107,15 @@ def get_track_details(track_id):
     spotify_link = data["external_urls"]["spotify"]
     embed_link = f"https://open.spotify.com/embed/track/{track_id}"
 
+    images = data.get("album", {}).get("images", [])
+    cover_url = images[0]["url"] if images else None
+
     return {
         "title": title,
         "artist": artist,
         "spotify_link": spotify_link,
-        "embed_link": embed_link
+        "embed_link": embed_link,
+        "cover_url": cover_url
     }
 
 cloudinary.config(
@@ -171,14 +180,16 @@ def add_song():
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("""
-            INSERT INTO songs (title, artist, spotify_link, embed_link)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO songs (title, artist, spotify_link, embed_link, cover_url)
+            VALUES (%s, %s, %s, %s, %s)
         """, (
             song["title"],
             song["artist"],
             song["spotify_link"],
-            song["embed_link"]
+            song["embed_link"],
+            song["cover_url"]
         ))
+        
         conn.commit()
         cur.close()
         conn.close()
@@ -201,7 +212,7 @@ def dashboard():
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT id, title, artist, spotify_link, embed_link
+            SELECT id, title, artist, spotify_link, embed_link, cover_url
             FROM songs
             ORDER BY id DESC
         """)
@@ -210,15 +221,16 @@ def dashboard():
         conn.close()
 
         songs = [
-            {
-                "id": row[0],
-                "title": row[1],
-                "artist": row[2],
-                "spotify_link": row[3],
-                "embed_link": row[4],
-            }
-            for row in rows
-        ]
+    {
+        "id": row[0],
+        "title": row[1],
+        "artist": row[2],
+        "spotify_link": row[3],
+        "embed_link": row[4],
+        "cover_url": row[5],
+    }
+    for row in rows
+]   
     except Exception as e:
         print("DASHBOARD DB ERROR:", e)
         flash("Songs are temporarily unavailable.")

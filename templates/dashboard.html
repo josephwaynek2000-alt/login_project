@@ -330,15 +330,11 @@
 }
 
 .song-row {
-    display: grid;
-    grid-template-columns: 56px 1fr auto;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
+    display: block;
     color: white;
     background: rgba(255,255,255,0.05);
     border-radius: 16px;
-    padding: 12px;
+    padding: 14px;
     transition: background 0.18s ease, transform 0.18s ease;
 }
 
@@ -347,17 +343,12 @@
     transform: translateY(-1px);
 }
 
-.song-cover {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #dc83ba, #bb439b);
-    display: flex;
+.song-top {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
     align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
+    margin-bottom: 12px;
 }
 
 .song-info {
@@ -377,6 +368,34 @@
     font-size: 13px;
     margin-top: 4px;
 }
+
+.song-embed iframe {
+    width: 100%;
+    height: 152px;
+    border: none;
+    border-radius: 12px;
+    display: block;
+}
+
+.song-cover {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #dc83ba, #bb439b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.song-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 
 .song-action {
     font-size: 13px;
@@ -469,28 +488,30 @@
                 </form>
 
                 <div class="songs-list">
-
-            </div>
     {% if songs %}
         {% for song in songs %}
             <div class="song-row">
-                <div class="song-cover">
-                    <span>♪</span>
+                <div class="song-top">
+                    <div class="song-cover">
+                        {% if song.cover_url %}
+                            <img src="{{ song.cover_url }}" alt="{{ song.title }} album cover">
+                        {% else %}
+                            <span>♪</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="song-info">
+                        <div class="song-title">{{ song.title }}</div>
+                        <div class="song-artist">{{ song.artist }}</div>
+                    </div>
                 </div>
 
-                <div class="song-info">
-                    <div class="song-title">{{ song.title }}</div>
-                    <div class="song-artist">{{ song.artist }}</div>
-
-                    <div style="margin-top: 12px;">
-                        <iframe
-                            src="{{ song.embed_link }}"
-                            width="100%"
-                            height="80"
-                            frameborder="0"
-                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-                        </iframe>
-                    </div>
+                <div class="song-embed">
+                    <iframe
+                        src="{{ song.embed_link }}"
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy">
+                    </iframe>
                 </div>
             </div>
         {% endfor %}
