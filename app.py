@@ -242,7 +242,29 @@ def dashboard():
         page="dashboard"
     )
 
+@app.route("/delete-song/<int:song_id>", methods=["POST"])
+def delete_song(song_id):
+    if "user" not in session:
+        return redirect(url_for("login"))
 
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM songs WHERE id = %s", (song_id,))
+        deleted = cur.rowcount
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        if deleted:
+            flash("Song deleted.")
+        else:
+            flash("Song not found.")
+    except Exception as e:
+        print("DELETE SONG ERROR:", e)
+        flash("Could not delete song.")
+
+    return redirect(url_for("dashboard"))
 
 @app.route("/letters")
 def letters():

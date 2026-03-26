@@ -418,9 +418,52 @@
         grid-template-columns: 1fr;
     }
 }
+
+.flash-stack {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.flash-message {
+    background: linear-gradient(180deg, #fff0f5, #ffe8f0);
+    border: 1px solid rgba(240, 125, 161, 0.25);
+    color: #9d4564;
+    padding: 13px 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(217, 108, 149, 0.1);
+}
+
+.delete-song-form {
+    margin-top: 12px;
+}
+
+.delete-song-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+}
+
+.delete-song-btn:hover {
+    background: rgba(255,255,255,0.18);
+}
     </style>
 </head>
 <body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-stack">
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
     <div class="app">
         <div class="topbar">
     <div class="brand">
@@ -512,6 +555,10 @@
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy">
                     </iframe>
+
+                    <form method="POST" action="{{ url_for('delete_song', song_id=song.id) }}" class="delete-song-form">
+                        <button type="submit" class="delete-song-btn">Delete song</button>
+                    </form>
                 </div>
             </div>
             {% endfor %}
@@ -531,5 +578,16 @@
             </div>
         </section>
     </div>
+
+    <script>
+    setTimeout(() => {
+        document.querySelectorAll(".flash-message").forEach(flash => {
+            flash.style.opacity = "0";
+            flash.style.transition = "opacity 0.35s ease";
+            setTimeout(() => flash.remove(), 350);
+        });
+    }, 3000);
+    </script>
+
 </body>
 </html>
