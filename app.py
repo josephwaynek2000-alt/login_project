@@ -230,7 +230,7 @@ def dashboard():
         "cover_url": row[5],
     }
     for row in rows
-]   
+]
     except Exception as e:
         print("DASHBOARD DB ERROR:", e)
         flash("Songs are temporarily unavailable.")
@@ -242,18 +242,7 @@ def dashboard():
         page="dashboard"
     )
 
-@app.route("/clear-songs")
-def clear_songs():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM songs")
-    conn.commit()
-    cur.close()
-    conn.close()
 
-    return "All songs deleted"
-
-    
 @app.route("/letters")
 def letters():
     if "user" not in session:
